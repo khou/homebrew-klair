@@ -10,18 +10,34 @@ class Klair < Formula
   depends_on "python@3.11"
 
   def install
-    # Create virtualenv with pip
+    # Use system python's pip to install into a virtualenv
     venv = virtualenv_create(libexec, "python3.11")
     
-    # Install pip in the virtualenv
-    system libexec/"bin/python", "-m", "ensurepip", "--upgrade"
+    # Install the package with dependencies using the formula's python
+    system Formula["python@3.11"].opt_bin/"python3.11", "-m", "pip", "install",
+           "--target=#{libexec}/lib/python3.11/site-packages",
+           "--no-deps", "."
     
-    # Install the package with all dependencies
-    system libexec/"bin/pip", "install", "--upgrade", "pip"
-    system libexec/"bin/pip", "install", buildpath
+    # Install dependencies
+    system Formula["python@3.11"].opt_bin/"python3.11", "-m", "pip", "install",
+           "--target=#{libexec}/lib/python3.11/site-packages",
+           "langgraph>=0.2.0",
+           "langchain-ollama>=0.2.0",
+           "langchain-openai>=0.2.0",
+           "langchain-anthropic>=0.3.0",
+           "langchain-core>=0.3.0",
+           "typer>=0.12.0",
+           "rich>=13.0.0",
+           "pyyaml>=6.0",
+           "kubernetes>=30.0.0"
     
-    # Link the klair binary
-    bin.install_symlink libexec/"bin/klair"
+    # Create wrapper script
+    (bin/"klair").write <<~EOS
+      #!/bin/bash
+      export PYTHONPATH="#{libexec}/lib/python3.11/site-packages:$PYTHONPATH"
+      exec "#{Formula["python@3.11"].opt_bin}/python3.11" -m klair "$@"
+    EOS
+    (bin/"klair").chmod 0755
   end
 
   def caveats
