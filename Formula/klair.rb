@@ -3,8 +3,8 @@ class Klair < Formula
 
   desc "LangGraph-based agent for Kubernetes troubleshooting"
   homepage "https://github.com/khou/klair"
-  url "https://github.com/khou/klair/archive/refs/tags/v0.2.0.tar.gz"
-  sha256 "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5"
+  url "https://github.com/khou/homebrew-klair/releases/download/v0.2.0/klair-0.2.0.tar.gz"
+  sha256 "0acf6642072637f0e3db55ce26a14906187f2d82cc9c577eac987b15c539d8eb"
   license "MIT"
 
   depends_on "python@3.11"
