@@ -10,9 +10,18 @@ class Klair < Formula
   depends_on "python@3.11"
 
   def install
-    # Create virtualenv and install with pip (handles all dependencies automatically)
+    # Create virtualenv with pip
     venv = virtualenv_create(libexec, "python3.11")
-    venv.pip_install_and_link buildpath
+    
+    # Install pip in the virtualenv
+    system libexec/"bin/python", "-m", "ensurepip", "--upgrade"
+    
+    # Install the package with all dependencies
+    system libexec/"bin/pip", "install", "--upgrade", "pip"
+    system libexec/"bin/pip", "install", buildpath
+    
+    # Link the klair binary
+    bin.install_symlink libexec/"bin/klair"
   end
 
   def caveats
