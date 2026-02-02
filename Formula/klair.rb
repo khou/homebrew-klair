@@ -32,7 +32,11 @@ class Klair < Formula
            "--no-deps",
            buildpath
 
-    # Create wrapper script
+    # Remove pip-generated entry points
+    rm_rf libexec/"lib/python3.11/site-packages/bin"
+
+    # Create wrapper script (overwrites any pip-generated script)
+    rm_f bin/"klair"
     (bin/"klair").write <<~EOS
       #!/bin/bash
       export PYTHONPATH="#{libexec}/lib/python3.11/site-packages:$PYTHONPATH"
