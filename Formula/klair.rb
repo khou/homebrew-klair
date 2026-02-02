@@ -4,6 +4,7 @@ class Klair < Formula
   desc "LangGraph-based agent for Kubernetes troubleshooting"
   homepage "https://github.com/khou/klair"
   url "https://github.com/khou/homebrew-klair/releases/download/v0.3.0/klair-0.3.0-cp311-cp311-macosx_26_0_arm64.whl"
+  version "0.3.0"
   sha256 "d46fb01f1a6bd86aa7f10eebed6e6da1105f76e8de6240c343bad649de60c22d"
   license "MIT"
 
