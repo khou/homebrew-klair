@@ -3,14 +3,14 @@ class Klair < Formula
 
   desc "LangGraph-based agent for Kubernetes troubleshooting"
   homepage "https://github.com/khou/klair"
-  url "https://github.com/khou/klair/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "0f50297c24e97c5c402f71eeaebe1ad147d0be12bae2924906006024d94f34fe"
+  url "https://github.com/khou/klair/archive/refs/tags/v0.2.0.tar.gz"
+  sha256 "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5"
   license "MIT"
 
   depends_on "python@3.11"
 
   def install
-    # Create virtualenv and install with pip
+    # Create virtualenv and install with pip (handles all dependencies automatically)
     venv = virtualenv_create(libexec, "python3.11")
     venv.pip_install_and_link buildpath
 
