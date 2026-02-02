@@ -28,11 +28,15 @@ class Klair < Formula
            "pyyaml>=6.0",
            "kubernetes>=30.0.0"
     
-    # Install the pre-built wheel
+    # Copy wheel to proper filename and install
+    wheel_name = "klair-#{version}-cp311-cp311-macosx_26_0_arm64.whl"
+    wheel_path = buildpath/wheel_name
+    cp cached_download, wheel_path
+    
     system Formula["python@3.11"].opt_bin/"python3.11", "-m", "pip", "install",
            "--target=#{libexec}/lib/python3.11/site-packages",
            "--no-deps",
-           cached_download
+           wheel_path
 
     # Create wrapper script
     (bin/"klair").write <<~EOS
