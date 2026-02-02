@@ -4,7 +4,7 @@ class Klair < Formula
   desc "LangGraph-based agent for Kubernetes troubleshooting"
   homepage "https://github.com/khou/klair"
   url "https://github.com/khou/homebrew-klair/releases/download/v0.2.0/klair-0.2.0.tar.gz"
-  sha256 "0acf6642072637f0e3db55ce26a14906187f2d82cc9c577eac987b15c539d8eb"
+  sha256 "0029f58d1261b3dfb36e9740ac6c95e196dee2bf50bbfccf52fa029814fa9223"
   license "MIT"
 
   depends_on "python@3.11"
@@ -13,18 +13,6 @@ class Klair < Formula
     # Create virtualenv and install with pip (handles all dependencies automatically)
     venv = virtualenv_create(libexec, "python3.11")
     venv.pip_install_and_link buildpath
-
-    # Install the prompts directory
-    (libexec/"prompts").install Dir["prompts/*"]
-
-    # Create wrapper script that sets KLAIR_PROMPTS_DIR
-    (bin/"klair").unlink if (bin/"klair").exist?
-    (bin/"klair").write <<~EOS
-      #!/bin/bash
-      export KLAIR_PROMPTS_DIR="#{libexec}/prompts"
-      exec "#{libexec}/bin/klair" "$@"
-    EOS
-    (bin/"klair").chmod 0755
   end
 
   def caveats
