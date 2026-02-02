@@ -3,20 +3,17 @@ class Klair < Formula
 
   desc "LangGraph-based agent for Kubernetes troubleshooting"
   homepage "https://github.com/khou/klair"
-  url "https://github.com/khou/homebrew-klair/releases/download/v0.3.0/klair-0.3.0-cp311-cp311-macosx_26_0_arm64.whl"
-  version "0.3.0"
-  sha256 "d46fb01f1a6bd86aa7f10eebed6e6da1105f76e8de6240c343bad649de60c22d"
+  url "https://github.com/khou/homebrew-klair/releases/download/v0.3.0/klair-0.3.0.tar.gz"
+  sha256 "62cfe05c515aabab2e9dc4d634865ebb8aa6683a3a4ccaaa9942e842c42f1041"
   license "MIT"
 
   depends_on "python@3.11"
-  depends_on :macos
-  depends_on arch: :arm64
 
   def install
     # Create virtualenv
     venv = virtualenv_create(libexec, "python3.11")
     
-    # Install dependencies using system pip
+    # Install dependencies
     system Formula["python@3.11"].opt_bin/"python3.11", "-m", "pip", "install",
            "--target=#{libexec}/lib/python3.11/site-packages",
            "langgraph>=0.2.0",
@@ -29,15 +26,11 @@ class Klair < Formula
            "pyyaml>=6.0",
            "kubernetes>=30.0.0"
     
-    # Copy wheel to proper filename and install
-    wheel_name = "klair-#{version}-cp311-cp311-macosx_26_0_arm64.whl"
-    wheel_path = buildpath/wheel_name
-    cp cached_download, wheel_path
-    
+    # Install klair package
     system Formula["python@3.11"].opt_bin/"python3.11", "-m", "pip", "install",
            "--target=#{libexec}/lib/python3.11/site-packages",
            "--no-deps",
-           wheel_path
+           buildpath
 
     # Create wrapper script
     (bin/"klair").write <<~EOS
