@@ -63,6 +63,6 @@ class Klair < Formula
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/klair --version")
+    assert_match version.to_s, shell_output("#{bin}/klair version")
   end
 end
